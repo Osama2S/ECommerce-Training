@@ -43,9 +43,9 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     name = table.Column<string>(type: "TEXT", nullable: false),
-                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "TEXT", nullable: true),
                     decimal182 = table.Column<decimal>(name: "decimal(18,2)", type: "TEXT", nullable: false),
-                    pictureUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    pictureUrl = table.Column<string>(type: "TEXT", nullable: true),
                     ProductTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductBrandId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

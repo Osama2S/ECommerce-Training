@@ -15,9 +15,11 @@ namespace API
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
             builder.Services.AddDbContext<ECommerceDbContext>(option => option.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
             var app = builder.Build();            
             
             using (var host = app.Services.CreateScope())
@@ -38,7 +40,7 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseAuthorization();
 
             

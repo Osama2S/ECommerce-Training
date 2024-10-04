@@ -12,10 +12,14 @@
 		</PackageReference>
 	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+	  <PackageReference Include="AutoMapper" Version="13.0.1" />
+	  <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
   </ItemGroup>
 	<ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
+	<ItemGroup>
+	  <Folder Include="wwwroot\Images\" />
+	</ItemGroup>
 
 </Project>

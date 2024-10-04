@@ -8,25 +8,7 @@ namespace Infrastructure.Data
     {
         public static async Task SeedAsync(ECommerceDbContext context , ILoggerFactory logger)
         {
-			try
-			{
-				if(!context.products.Any())
-				{
-					var filename = @"C:\Users\osama\source\repos\Ecommerce Project\Infrastructure\Data\SeedingData\ProductECommerce.xlsx";
-					var product=new ExcelMapper(filename).Fetch<Product>();
-                    foreach (var item in product)
-                    {
-						await context.products.AddAsync(item);
-                    }
-                    await context.SaveChangesAsync();
-
-                }
-            }
-			catch (Exception ex)
-			{
-				var _logger = logger.CreateLogger<ECommerceContextSeed>();
-				_logger.LogError(ex.Message);
-			}
+			
 			try
 			{
 				if(!context.ProductBrands.Any())
@@ -64,6 +46,38 @@ namespace Infrastructure.Data
 				var _logger = logger.CreateLogger<ECommerceContextSeed>();
 				_logger.LogError(ex.Message);
 			}
+            try
+            {
+                if (!context.products.Any())
+                {
+                    var filename = @"C:\Users\osama\source\repos\Ecommerce Project\Infrastructure\Data\SeedingData\ProductECommerce.xlsx";
+                    var product = new ExcelMapper(filename).Fetch<Product>();
+                    foreach (var item in product)
+                    {
+                        var productBrand = await context.ProductBrands.FindAsync(item.ProductBrandId);
+                        var productType = await context.ProductTypes.FindAsync(item.ProductTypeId);
+
+                        if (productBrand != null)
+                        {
+                            item.productBrand = productBrand; // Assign the productBrand based on the ID
+                        }
+
+                        if (productType != null)
+                        {
+                            item.productType = productType; // Assign the productType based on the ID
+                        }
+
+                        await context.products.AddAsync(item);
+                    }
+                    await context.SaveChangesAsync();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                var _logger = logger.CreateLogger<ECommerceContextSeed>();
+                _logger.LogError(ex.Message);
+            }
         }
     }
 }
