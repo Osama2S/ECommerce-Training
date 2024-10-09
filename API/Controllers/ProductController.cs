@@ -28,16 +28,16 @@ namespace API.Controller
             _mapper = mapper;
         }
         [HttpGet]   
-        public async Task<IReadOnlyList<ProductDTO>> GetProducts()
+        public async Task<IReadOnlyList<ProductDTO>> GetProducts([FromQuery]string? sort, [FromQuery]  int ?brandid, [FromQuery] int?typeid)
         {
-            var spec = new ProductWithTypeAndBrandSpecification();
+            var spec = new ProductWithTypeAndBrandSpecification(sort!, brandid, typeid);
             IReadOnlyList<Product> products = await _repositoryProduct.ListAsync(spec);
             List<ProductDTO> productsDTO = _mapper.Map<List<ProductDTO>>(products);
             return productsDTO;
         }
-        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(APIResponse),StatusCodes.Status404NotFound)]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProduct(int id) {
             var spec = new ProductWithTypeAndBrandSpecification(id);
             Product product = await _repositoryProduct.GetEntityWithSpec(spec);
