@@ -4,6 +4,7 @@ using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -42,6 +43,23 @@ namespace API
                 Title="Ecommerce Project",
                 Version="v1"
             }));
+            builder.Services.AddCors(option =>
+            {
+                option.AddPolicy("ECommerce", build =>
+                {
+                    build.WithOrigins("https://localhost:4200", "http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                    
+                });
+            });
+            builder.WebHost.ConfigureKestrel(option =>
+            {
+                option.ConfigureHttpsDefaults(httpsOptions =>
+                {
+                    httpsOptions.ClientCertificateMode=ClientCertificateMode.NoCertificate;
+                });
+            });
             var app = builder.Build();            
             
             using (var host = app.Services.CreateScope())
@@ -64,6 +82,7 @@ namespace API
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors("ECommerce");
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -20,6 +20,7 @@ namespace Infrastructure.Data
             }
             if (Spec.OrderBy!=null)
             {
+               
                 query=query.OrderBy(Spec.OrderBy);
             }
             if (Spec.OrderByDescending!=null)

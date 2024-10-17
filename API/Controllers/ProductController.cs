@@ -1,5 +1,6 @@
 ﻿using API.DTO;
 using API.Errors;
+using API.Helpper;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -28,13 +29,18 @@ namespace API.Controller
             _mapper = mapper;
         }
         [HttpGet]   
-        public async Task<IReadOnlyList<ProductDTO>> GetProducts([FromQuery]string? sort, [FromQuery]  int ?brandid, [FromQuery] int?typeid)
+        public async Task<ActionResult<Pagination<ProductDTO>>> GetProducts([FromQuery] ProductSpecParams @params)
         {
-            var spec = new ProductWithTypeAndBrandSpecification(sort!, brandid, typeid);
+            var spec = new ProductWithTypeAndBrandSpecification(@params);
+            var getProduct=new ProductWithCountAllProduct(@params);
+            var totalItems = await _repositoryProduct.CountAsync(getProduct);
+
             IReadOnlyList<Product> products = await _repositoryProduct.ListAsync(spec);
             List<ProductDTO> productsDTO = _mapper.Map<List<ProductDTO>>(products);
-            return productsDTO;
+
+            return Ok(new Pagination<ProductDTO>(@params.pageIndex,@params.PageSize, totalItems , productsDTO));
         }
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(APIResponse),StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]

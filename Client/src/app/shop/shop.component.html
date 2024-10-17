@@ -1,0 +1,63 @@
+<div>
+  <div class="row">
+    <section class="col-3">
+      <section>
+        <h5 class="ml-3">Sort</h5>
+        <select class="form-select mb-3" (change)="onSortSelected($event)">
+          @for (sort of sortOption; track $index) {
+          <option [value]="sort.value" [selected]="$index===0">{{sort.name}}</option>
+          }
+        </select>
+      </section>
+      <section>
+        <h5 class="ml-3">Brand</h5>
+        <ul class="list-group my-3">
+          @for (brand of Brands; track $index) {
+          <li class="list-group-item" [class.active]="brand.id===shopParams.BrandId"
+            (click)="onBrandSelected(brand.id)">{{brand.name}}</li>
+          }
+        </ul>
+      </section>
+      <section>
+        <h5 class="ml-3">Type</h5>
+        <ul class="list-group my-3">
+          @for (type of Types; track $index) {
+          <li class="list-group-item" [class.active]="type.id===shopParams.TypeId" (click)="onTypeSelected(type.id)">
+            {{type.name}}</li>
+          }
+        </ul>
+      </section>
+    </section>
+    <section class="col-9">
+      <div class="d-flex justify-content-between align-items-center pb-2">
+        <header>
+          @if(shopParams.CountProd>0){
+          <span>Showing
+            <strong>{{(shopParams.pageIndex-1)*shopParams.PageSize+1}}-
+              {{(shopParams.PageSize*shopParams.pageIndex)>shopParams.CountProd?shopParams.CountProd:
+              shopParams.PageSize*shopParams.pageIndex}}</strong>
+            of <strong>{{shopParams.CountProd}}</strong> Results</span>
+          }
+          @else {
+          <span>The Result Is Not Found</span>
+          }
+        </header>
+        <div class="mt-2 d-flex align-items-center gap-2">
+          <input type="text" #search class="form-control " style="width:300px; height: 50px;" placeholder="Search">
+          <button class="btn btn-outline-primary my-2" (click)="onSearchProduct()">Search</button>
+          <button class="btn btn-outline-success ml-2 my-2" (click)="onResetValue()">Reset</button>
+        </div>
+      </div>
+      <div class="row">
+        @for (product of Products; track $index) {
+        <div class="col-4 my-2">
+          <app-product-item [product]="product"></app-product-item>
+
+        </div>
+        }
+      </div>
+      <app-pagination (CurrentPage)="onChangePage($event)" [PageCount]="NumberOfPages"></app-pagination>
+
+    </section>
+  </div>
+</div>
