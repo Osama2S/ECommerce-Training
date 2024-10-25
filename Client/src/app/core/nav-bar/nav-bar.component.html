@@ -2,16 +2,16 @@
   <header
     class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between mb-4 border-bottom">
     <div class="col-md-3 mb-2 mb-md-0">
-      <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-       <img src="./images/logo.png" alt="logo" srcset="">
+      <a [routerLink]="['']" class="d-inline-flex link-body-emphasis text-decoration-none">
+        <img src="./images/logo.png" alt="logo" srcset="">
       </a>
     </div>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-      <li><a href="#" class="nav-link px-2">Features</a></li>
-      <li><a href="#" class="nav-link px-2">Pricing</a></li>
-      <li><a href="#" class="nav-link px-2">FAQs</a></li>
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 gap-2">
+      <li><a class="nav-link px-2" [routerLink]="['']">Home</a></li>
+      <li><a class="nav-link px-2" [routerLink]="['/shop']">Shop</a></li>
+      <li><a class="nav-link px-2" [routerLink]="['/test-error']">Error</a></li>
+      <li><a href="#" class="nav-link px-2">Contact</a></li>
       <li><a href="#" class="nav-link px-2">About</a></li>
     </ul>
 

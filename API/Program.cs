@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace API
 {
@@ -20,10 +21,18 @@ namespace API
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IBasketRepository, BasketRepository>();
             builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
             builder.Services.AddDbContext<ECommerceDbContext>(option => option.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
+            builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var configration = ConfigurationOptions.Parse(
+                    builder.Configuration.GetConnectionString("Redis")!, true
+                    );
+                return ConnectionMultiplexer.Connect(configration);
+            });
             builder.Services.Configure<ApiBehaviorOptions>(option =>
             option.InvalidModelStateResponseFactory=actionContext =>
             {

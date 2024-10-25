@@ -51,7 +51,8 @@
       <div class="row">
         @for (product of Products; track $index) {
         <div class="col-4 my-2">
-          <app-product-item [product]="product"></app-product-item>
+          <app-product-item [product]="product"
+            (getProductDetails)="onNavigateProductDetails(product.id)"></app-product-item>
 
         </div>
         }

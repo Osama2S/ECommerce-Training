@@ -4,6 +4,7 @@ import { IProduct } from '../shared/models/IProduct';
 import { IBrand } from '../shared/models/IBrand';
 import { IType } from '../shared/models/IType';
 import { ShopParams } from '../shared/models/shopParams';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -11,6 +12,8 @@ import { ShopParams } from '../shared/models/shopParams';
   styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit{
+
+
   @ViewChild("search",{static:true}) searchTerm!:ElementRef;
   Products: IProduct[]=[];
   Brands: IBrand[] = [];
@@ -22,7 +25,8 @@ export class ShopComponent implements OnInit{
     { name: "Price : Low To High", value: "priceAsc" },
     { name: "Price :High To Low", value: "priceDesc" }
   ];
-  constructor(private _shopService: ShopService) { }
+  constructor(private _shopService: ShopService, private rout: Router) { }
+
   ngOnInit(): void {
     this.getAllProducts();
     this.getAllBrands();
@@ -100,5 +104,9 @@ export class ShopComponent implements OnInit{
     this.searchTerm.nativeElement.value = '';
     this.shopParams = new ShopParams();
     this.getAllProducts();
+  }
+  onNavigateProductDetails(productId:number)
+  {
+    this.rout.navigate(["shop/product-details",productId])
   }
 }

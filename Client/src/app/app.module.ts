@@ -4,13 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
+import { errorInterceptor } from './core/interceptor/error.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -21,7 +21,7 @@ import { ShopModule } from './shop/shop.module';
 
   ],
   providers: [
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(),withInterceptors([errorInterceptor])),
   ],
   bootstrap: [AppComponent],
   exports:[]
