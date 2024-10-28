@@ -11,8 +11,13 @@
         </div>
         <p class="lead">{{product.description}}</p>
         <div class="d-flex">
-          <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
-          <button class="btn btn-outline-dark flex-shrink-0" type="button">
+          <i (click)="decrementItemBasket()" class="fa fa-minus-circle text-warning me-2"
+            style="cursor: pointer; font-size: 2em;"></i>
+          <input class="form-control text-center" #inputQuantity type="number" (blur)="onBlur()" value="1"
+            style="max-width: 3rem">
+          <i (click)="incrementItemBasket()" class="fa fa-plus-circle text-warning mx-2"
+            style="cursor: pointer; font-size: 2em;"></i>
+          <button class="btn btn-outline-dark flex-shrink-0" type="button" (click)="onAddToCart()">
             <i class="bi-cart-fill me-1"></i>
             Add to cart
           </button>

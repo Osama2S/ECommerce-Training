@@ -1,3 +1,21 @@
 .active {
   background-color: yellow;
 }
+.count{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 65%;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+

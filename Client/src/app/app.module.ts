@@ -8,9 +8,12 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
 import { errorInterceptor } from './core/interceptor/error.interceptor';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -18,7 +21,7 @@ import { errorInterceptor } from './core/interceptor/error.interceptor';
     BrowserAnimationsModule,
     CoreModule,
     ShopModule,
-
+    FontAwesomeModule
   ],
   providers: [
     provideHttpClient(withFetch(),withInterceptors([errorInterceptor])),

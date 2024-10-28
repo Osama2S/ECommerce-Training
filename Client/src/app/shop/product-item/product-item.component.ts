@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IProduct } from '../../shared/models/IProduct';
+import { BasketService } from '../../basket/basket.service';
 
 
 @Component({
@@ -10,6 +11,11 @@ import { IProduct } from '../../shared/models/IProduct';
 export class ProductItemComponent {
   @Input() product!: IProduct;
   @Output() getProductDetails = new EventEmitter();
+  constructor(private basket: BasketService) { }
+  addItemToBasket()
+  {
+    this.basket.addItemInBasket(this.product);
+  }
   onGetProductDetails()
   {
     this.getProductDetails.emit();

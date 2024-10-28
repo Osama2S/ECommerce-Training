@@ -12,6 +12,6 @@ namespace Core.Entities
         public CustomerBasket(int id) { Id=id; }
 
         public int Id { get; set; }
-        public BasketItem basket{ get; set; }=new BasketItem();
+        public List<BasketItem> basket { get; set; }=new List<BasketItem>();
     }
 }
