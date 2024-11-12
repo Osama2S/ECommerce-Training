@@ -7,12 +7,10 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BasketController : ControllerBase
+    public class BasketController(IBasketRepository basketRepository) : ControllerBase
     {
-        private readonly IBasketRepository _basketRepository;
-        public BasketController(IBasketRepository basketRepository) {
-        _basketRepository = basketRepository;
-        }
+        private readonly IBasketRepository _basketRepository = basketRepository;
+
         [HttpGet]
         public async Task<ActionResult<CustomerBasket>> GetBasketById(int id) {
             var basket = await _basketRepository.GetBasketAsync(id);

@@ -1,8 +1,13 @@
-
 using API.Errors;
+using API.Extensions;
 using API.Middleware;
+using Core.Entities.Identity;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Identity;
+using Infrastructure.Identity;
+using Infrastructure.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +25,15 @@ namespace API
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IBasketRepository, BasketRepository>();
             builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
             builder.Services.AddDbContext<ECommerceDbContext>(option => option.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
+            builder.Services.AddDbContext<AppIdentityDbContext>(x =>
+            x.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
             builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
             {
                 var configration = ConfigurationOptions.Parse(
@@ -69,6 +77,7 @@ namespace API
                     httpsOptions.ClientCertificateMode=ClientCertificateMode.NoCertificate;
                 });
             });
+            builder.Services.AddIdentityService(builder.Configuration);
             var app = builder.Build();            
             
             using (var host = app.Services.CreateScope())
@@ -80,6 +89,11 @@ namespace API
                     var context = services.GetRequiredService<ECommerceDbContext>();
                     await context.Database.MigrateAsync();
                     await ECommerceContextSeed.SeedAsync(context,loggerFactory);
+
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+                    await context.Database.MigrateAsync();
+                    await AppIdentityDbContextSeed.SeedUsersAsyc(userManager);
                 }
                 catch (Exception ex)
                 {
@@ -92,6 +106,7 @@ namespace API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors("ECommerce");
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
