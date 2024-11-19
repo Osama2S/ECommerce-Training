@@ -38,7 +38,7 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailClaimPrinciple(HttpContext.User);
             return new UserDTO
             {
-                Email = user.Email,
+                Email = user.Email!,
                 DispalyName=user!.DisplayName,
                 Token=_tokenService.CreateToken(user),
             };
@@ -55,7 +55,7 @@ namespace API.Controllers
             var user =await _userManager.FindByEmailWithAddress(HttpContext.User);
 
 
-            return _mapper.Map<Address,AddressDTO>(user.Address);
+            return _mapper.Map<Address,AddressDTO>(user.Address!);
         }
         [HttpPut("address")]
         [Authorize]
@@ -87,9 +87,13 @@ namespace API.Controllers
                 DispalyName=user.DisplayName
             };
         }
-        [HttpPost("registration")]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
+            if (GetExistUser(registerDTO.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new APIValidationErrorResponse { Errors=new[] { "The Email is already token" } });
+            }
             var user = new AppUser()
             {
                 DisplayName = registerDTO.DisplayName,
@@ -99,7 +103,7 @@ namespace API.Controllers
             var result= await _userManager.CreateAsync(user,registerDTO.Password);
             if (!result.Succeeded)
             {
-                return BadRequest(new APIResponse(400));
+                return BadRequest(new APIResponse(400, result.Errors.ToString()!));
             }
             return new UserDTO
             {

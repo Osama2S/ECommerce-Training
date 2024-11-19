@@ -1,10 +1,9 @@
 ﻿namespace API.DTO
 {
-#nullable disable
     public class UserDTO
     {
-        public string Email { get; set; }
-        public string DispalyName { get; set; }
-        public string Token{ get; set; }
+        public required string Email { get; set; }
+        public required string DispalyName { get; set; }
+        public required string Token{ get; set; }
     }
 }

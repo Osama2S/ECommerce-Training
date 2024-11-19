@@ -2,14 +2,13 @@
 {
     public class Address
     {
-#nullable disable
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string ZipCode { get; set; }
-        public string AppUserid { get; set; }
-        public AppUser AppUser { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Street { get; set; }
+        public required string City { get; set; }
+        public required string ZipCode { get; set; }
+        public string ?AppUserid { get; set; }
+        public AppUser? AppUser { get; set; }
     }
 }

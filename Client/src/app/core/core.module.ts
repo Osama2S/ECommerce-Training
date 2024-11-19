@@ -8,6 +8,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { BadRequestComponent } from './bad-request/bad-request.component';
 import { ErrorComponent } from '../error/error.component';
 import {ToastrModule} from 'ngx-toastr'
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {ToastrModule} from 'ngx-toastr'
   imports: [
     CommonModule,
     CoreRoutingModule,
+    SharedModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates:true

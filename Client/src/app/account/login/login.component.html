@@ -1,0 +1,19 @@
+<form [formGroup]="loginFrom" (ngSubmit)="OnSubmit()" class="form-signin needs-validation">
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal">LOG IN</h1>
+  </div>
+
+  <div class="form-label-group">
+    <input formControlName="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus="">
+    <label for="inputEmail">Email address</label>
+    <span *ngIf="cheakEmail()" class="text-danger">{{emailError}}</span>
+  </div>
+  <div class="form-label-group">
+    <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Password" >
+    <label for="inputPassword">Password</label>
+    <span *ngIf="cheakPassword()" class="text-danger">{{passwordError}}</span>
+
+  </div>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</form>

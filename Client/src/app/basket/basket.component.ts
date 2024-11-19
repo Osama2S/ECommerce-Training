@@ -3,10 +3,11 @@ import { BasketService } from './basket.service';
 import { IBasket, IBasketItem } from '../shared/models/IBasket';
 import { Observable } from 'rxjs';
 
+
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
-  styleUrl: './basket.component.scss'
+  styleUrl: './basket.component.scss',
 })
 export class BasketComponent {
   basket$!: Observable<IBasket|null>;
