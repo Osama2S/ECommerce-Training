@@ -56,17 +56,21 @@ export class LoginComponent implements OnInit{
   }
   OnSubmit()
   {
-    this.account.login(this.loginFrom.value).subscribe({
-      next:()=> {
-        console.log("user logged in")
-      },
-      error:(err)=> {
-        console.log("The Error is ",err)
-      },
-      complete:()=> {
-        console.log("Finished")
-        this.router.navigate([this.returnUrl]);
-      },
-    })
+    debugger
+    if (!(this.emailError || this.passwordError))
+    {
+      this.account.login(this.loginFrom.value).subscribe({
+        next:()=> {
+          console.log("user logged in")
+        },
+        error:(err)=> {
+          console.log("The Error is ",err)
+        },
+        complete:()=> {
+          console.log("Finished")
+          this.router.navigate([this.returnUrl]);
+        },
+      })
+    }
   }
 }

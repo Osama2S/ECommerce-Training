@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Ganss.Excel;
 using Microsoft.Extensions.Logging;
 
@@ -68,6 +69,26 @@ namespace Infrastructure.Data
                         }
 
                         await context.products.AddAsync(item);
+                    }
+                    await context.SaveChangesAsync();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                var _logger = logger.CreateLogger<ECommerceContextSeed>();
+                _logger.LogError(ex.Message);
+            }
+            try
+            {
+                if (!context.deliveryMethods.Any())
+                {
+                    var filename = @"C:\Users\osama\source\repos\Ecommerce Project\Infrastructure\Data\SeedingData\DeliveryMethod.xlsx";
+                    var method = new ExcelMapper(filename).Fetch<DeliveryMethod>();
+                    foreach (var item in method)
+                    {                       
+
+                        await context.deliveryMethods.AddAsync(item);
                     }
                     await context.SaveChangesAsync();
 
