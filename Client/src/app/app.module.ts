@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
+import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { ShopModule } from './shop/shop.module';
     BsDropdownModule.forRoot()
   ],
   providers: [
-    provideHttpClient(withFetch(),withInterceptors([errorInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([errorInterceptor,JwtInterceptor])),
   ],
   bootstrap: [AppComponent],
   exports:[]

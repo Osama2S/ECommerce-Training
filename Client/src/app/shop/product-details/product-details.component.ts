@@ -7,6 +7,7 @@ import { IBasketItem } from '../../shared/models/IBasket';
 import { BasketService } from '../../basket/basket.service';
 
 @Component({
+  standalone:false,
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'

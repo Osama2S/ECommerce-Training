@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IBasket, IBasketItem } from '../models/IBasket';
 import { BasketService } from '../../basket/basket.service';
 
 @Component({
+  standalone:false,
   selector: 'app-basket-summary',
   templateUrl: './basket-summary.component.html',
   styleUrl: './basket-summary.component.scss'
 })
 export class BasketSummaryComponent {
+  @Input() isbasket: boolean =true;
   basket$ = new Observable<IBasket|null>
   constructor(private basketService: BasketService) { }
   ngOnInit()

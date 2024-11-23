@@ -1,0 +1,16 @@
+<div class="container">
+  <ul class="nav nav-pills nav-justified">
+    @for(step of steps; track step.label; let i = $index ){
+    <li class="nav-item">
+      <div class="d-grid">
+        <button (click)="OnClick(i)" [disabled]="true" [class.active]="selectedIndex === i" class="nav-link py-3 text-uppercase fw-bold">
+          {{step.label}}  <span *ngIf="step.completed" class="text-success"> : {{step.completed}}</span>
+        </button>
+      </div>
+    </li>
+    }
+  </ul>
+  <div *ngIf="selected">
+    <ng-container [ngTemplateOutlet]="selected.content"></ng-container>
+  </div>
+</div>

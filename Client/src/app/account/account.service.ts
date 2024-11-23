@@ -3,6 +3,7 @@ import { BehaviorSubject, map } from 'rxjs';
 import { IUser } from '../shared/models/user';
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { IAddress } from '../shared/models/address';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class AccountService {
     )
   }
   register(value: any) {
-    debugger;
+
     return this.http.post<IUser>("api/account/register", value).pipe(
       map((user: IUser) => {
         if (user) {
@@ -56,5 +57,12 @@ export class AccountService {
    }
   checkEmailExist(email: string) {
     return this.http.get("api/account/existEmail?email=" + email);
+  }
+  getUserAddress()
+  {
+    return this.http.get<IAddress>("api/account/address");
+  }
+  updateUserAddress(address: IAddress) {
+    return this.http.put('api/account/address', address);
   }
 }

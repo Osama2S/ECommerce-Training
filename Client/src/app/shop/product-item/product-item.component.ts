@@ -4,6 +4,7 @@ import { BasketService } from '../../basket/basket.service';
 
 
 @Component({
+  standalone:false,
   selector: 'app-product-item',
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss'

@@ -7,6 +7,7 @@ import { ShopParams } from '../shared/models/shopParams';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone:false,
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'

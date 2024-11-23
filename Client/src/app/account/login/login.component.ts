@@ -4,6 +4,7 @@ import { AccountService } from '../account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+  standalone:false,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit{
   loginFrom!: FormGroup;
   emailError!: string;
   passwordError!: string;
-  returnUrl: string = '';
+  returnUrl: string = '/shop';
   constructor(private account:AccountService,private router:Router,private activeRouter:ActivatedRoute){}
   ngOnInit(): void {
     this.returnUrl=this.activeRouter.snapshot.queryParams['returnUrl']||'/shop'
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit{
   {
     this.loginFrom = new FormGroup({
       email: new FormControl('', [Validators.required,Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
-      password: new FormControl('', [Validators.required,Validators.pattern('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$')])
+      password: new FormControl('', [Validators.required,Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{4,16}$')])
     });
   }
   cheakEmail()
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit{
       }
       return true;
     }
+    this.emailError = '';
     return false;
   }
   cheakPassword()
@@ -52,11 +54,12 @@ export class LoginComponent implements OnInit{
       }
       return true;
     }
+    this.passwordError = '';
     return false;
   }
   OnSubmit()
   {
-    debugger
+    
     if (!(this.emailError || this.passwordError))
     {
       this.account.login(this.loginFrom.value).subscribe({

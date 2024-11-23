@@ -6,6 +6,7 @@ import { IUser } from '../../shared/models/user';
 import { AccountService } from '../../account/account.service';
 
 @Component({
+  standalone:false,
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'

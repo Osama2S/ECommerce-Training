@@ -3,6 +3,7 @@ import { BasketService } from './basket/basket.service';
 import { AccountService } from './account/account.service';
 
 @Component({
+  standalone:false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -24,7 +25,7 @@ export class RegisterComponent {
       email: [null,
         [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
       password: [null,
-        [Validators.required, Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$')]]
+        [Validators.required, Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{4,16}$')]]
     });
   }
   EmailErrors()
@@ -71,6 +72,7 @@ export class RegisterComponent {
   }
   cheakPassword()
   {
+
     if (this.registrationFrom.get('password')?.touched && this.registrationFrom.get('password')?.invalid)
       {
       if (this.registrationFrom.get('password')?.errors?.['required']) {
@@ -89,7 +91,8 @@ export class RegisterComponent {
       next:()=> {
         console.log("user registered in")
       },
-      error:(err)=> {
+      error: (err) => {
+        this.passwordError = err.errors;
         console.log("The Error is ",err)
       },
       complete:()=> {

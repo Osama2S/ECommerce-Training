@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
+  standalone:false,
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrl: './error.component.scss'
@@ -31,7 +32,7 @@ export class ErrorComponent {
   }
 
   get400ValidationError() {
-    
+
     this.http.get( 'api/Product/fortytwo').subscribe({
       next: response => console.log(response),
       error: error => {
